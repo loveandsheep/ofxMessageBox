@@ -12,6 +12,7 @@ ofxMessageBox::ofxMessageBox(){
 	box_appearing = -1;
 	frame = 0;
 	Selected = -1;
+	Response = -1;
 	ofAddListener(ofEvents().draw, this, &ofxMessageBox::draw);
 	ofRegisterMouseEvents(this);
 }
@@ -61,6 +62,7 @@ void ofxMessageBox::draw(ofEventArgs& args){
 			for (int j = 0;j < msgBoxes[i].buttonBox.size();j++){
 				if (msgBoxes[i].buttonBox[j].bSelected){
 					Selected = j;
+					Response = j;
 				}else{
 					if (!msgBoxes[i].buttonBox[j].disappearing){
 						msgBoxes[i].buttonBox[j].disappear(true);
@@ -102,6 +104,13 @@ void ofxMessageBox::viewMessage(int num){
 	box_appearing = num;
 	frame = 0;
 	Selected = -1;
+	Response = -1;
+}
+
+int ofxMessageBox::getResponse(){
+	int res = Response;
+	Response = -1;
+	return res;
 }
 
 void ofxMessageBox::disableMessage(){

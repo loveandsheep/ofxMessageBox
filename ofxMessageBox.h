@@ -35,6 +35,7 @@ public:
 	void setType		(int num,int type);
 	void viewMessage(int num);
 	void disableMessage();
+	int getResponse();
 	
 	virtual void mouseMoved(ofMouseEventArgs & args);
 	virtual void mousePressed(ofMouseEventArgs & args);
@@ -46,4 +47,5 @@ public:
 	int frame;
 	int box_appearing;
 	int Selected;
+	int Response;
 };
