@@ -42,6 +42,7 @@ public:
 	virtual void mousePressed(ofMouseEventArgs & args);
 	virtual void mouseDragged(ofMouseEventArgs & args);
 	virtual void mouseReleased(ofMouseEventArgs & args);
+    virtual void keyPressed(ofKeyEventArgs & key);
 
 	vector<messageBox>msgBoxes;
 	

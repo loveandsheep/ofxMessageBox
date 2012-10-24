@@ -18,6 +18,7 @@ ofxMessageBox::ofxMessageBox(){
     ofAddListener(ofEvents().mousePressed, this, &ofxMessageBox::mousePressed);
     ofAddListener(ofEvents().mouseDragged, this, &ofxMessageBox::mouseDragged);
     ofAddListener(ofEvents().mouseReleased, this, &ofxMessageBox::mouseReleased);
+    ofAddListener(ofEvents().keyPressed, this, &ofxMessageBox::keyPressed);
 }
 
 ofxMessageBox::~ofxMessageBox(){
@@ -26,6 +27,7 @@ ofxMessageBox::~ofxMessageBox(){
     ofRemoveListener(ofEvents().mousePressed, this, &ofxMessageBox::mousePressed);
     ofRemoveListener(ofEvents().mouseDragged, this, &ofxMessageBox::mouseDragged);
     ofRemoveListener(ofEvents().mouseReleased, this, &ofxMessageBox::mouseReleased);
+    ofRemoveListener(ofEvents().keyPressed, this, &ofxMessageBox::keyPressed);
 }
 
 void ofxMessageBox::addNewMessage(string title, string mes, int type,ofPoint position){
@@ -36,9 +38,9 @@ void ofxMessageBox::addNewMessage(string title, string mes, int type,ofPoint pos
 								 ofGetHeight()/2-win_size.y/2,
 								 win_size.x,win_size.y);
 	if (position != ofPoint(0,0)){
-        ofRectangle(position.x-win_size.x/2,
-                    position.y-win_size.y/2,
-                    win_size.x,win_size.y);
+        mr = ofRectangle(position.x-win_size.x/2,
+                         position.y-win_size.y/2,
+                         win_size.x,win_size.y);
     }
     
 	msgBoxes[msgBoxes.size()-1].mainBox.setArea(mr);
@@ -71,7 +73,8 @@ void ofxMessageBox::draw(ofEventArgs& args){
 		}
 		if (startDissapear){
 			for (int j = 0;j < msgBoxes[i].buttonBox.size();j++){
-				if (msgBoxes[i].buttonBox[j].bSelected){
+				if ((msgBoxes[i].buttonBox[j].bSelected)&&
+                    (msgBoxes[i].buttonBox.size() != 1)){
 					Selected = j;
 					Response = j;
 				}else{
@@ -237,4 +240,20 @@ void ofxMessageBox::mouseReleased(ofMouseEventArgs &args){
 			msgBoxes[i].buttonBox[j].mouseReleased(args);
 		}
 	}
+}
+
+void ofxMessageBox::keyPressed(ofKeyEventArgs &key){
+    if (key.key == OF_KEY_RETURN){
+        for (int i = 0;i < msgBoxes.size();i++){
+            if (box_appearing == i){
+                ofMouseEventArgs g;
+                g.x = msgBoxes[i].buttonBox[0].area.x + 3;
+                g.y = msgBoxes[i].buttonBox[0].area.y + 3;
+                g.button = 1;
+
+                msgBoxes[i].buttonBox[0].onMouse = true;
+                msgBoxes[i].buttonBox[0].mouseReleased(g);
+            }
+        }
+    }
 }
