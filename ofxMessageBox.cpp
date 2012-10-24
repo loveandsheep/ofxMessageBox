@@ -14,22 +14,33 @@ ofxMessageBox::ofxMessageBox(){
 	Selected = -1;
 	Response = -1;
 	ofAddListener(ofEvents().draw, this, &ofxMessageBox::draw);
-	ofRegisterMouseEvents(this);
+    ofAddListener(ofEvents().mouseMoved, this, &ofxMessageBox::mouseMoved);
+    ofAddListener(ofEvents().mousePressed, this, &ofxMessageBox::mousePressed);
+    ofAddListener(ofEvents().mouseDragged, this, &ofxMessageBox::mouseDragged);
+    ofAddListener(ofEvents().mouseReleased, this, &ofxMessageBox::mouseReleased);
 }
 
 ofxMessageBox::~ofxMessageBox(){
 	ofRemoveListener(ofEvents().draw, this, &ofxMessageBox::draw);
-	ofUnregisterMouseEvents(this);
+    ofRemoveListener(ofEvents().mouseMoved, this, &ofxMessageBox::mouseMoved);
+    ofRemoveListener(ofEvents().mousePressed, this, &ofxMessageBox::mousePressed);
+    ofRemoveListener(ofEvents().mouseDragged, this, &ofxMessageBox::mouseDragged);
+    ofRemoveListener(ofEvents().mouseReleased, this, &ofxMessageBox::mouseReleased);
 }
 
-void ofxMessageBox::addNewMessage(string title, string mes, int type){
+void ofxMessageBox::addNewMessage(string title, string mes, int type,ofPoint position){
 	messageBox bx;
 	msgBoxes.push_back(bx);
 	ofPoint win_size = ofPoint(320,130);
 	ofRectangle mr = ofRectangle(ofGetWidth()/2-win_size.x/2,
 								 ofGetHeight()/2-win_size.y/2,
 								 win_size.x,win_size.y);
-	
+	if (position != ofPoint(0,0)){
+        ofRectangle(position.x-win_size.x/2,
+                    position.y-win_size.y/2,
+                    win_size.x,win_size.y);
+    }
+    
 	msgBoxes[msgBoxes.size()-1].mainBox.setArea(mr);
 	setTitle		(msgBoxes.size()-1, title);
 	setType			(msgBoxes.size()-1, type);

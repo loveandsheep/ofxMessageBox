@@ -29,7 +29,8 @@ public:
 	~ofxMessageBox();
 	
 	void draw(ofEventArgs& args);
-	void addNewMessage	(string title,string mes,int type);
+	void addNewMessage	(string title,string mes,int type,ofPoint position = ofPoint(0,0));
+    
 	void setTitle		(int num,string title);
 	void setDescription	(int num,string mes);
 	void setType		(int num,int type);
