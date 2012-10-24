@@ -69,7 +69,7 @@ void EaseRectBox::draw(){
 	}
 	
 	float eas_k = 4.0*ofGetFrameRate()/60.0f;
-	if (appearing) frame += 1*ofGetFrameRate()/60.0f;
+	if (appearing) frame += 1*MAX(1,60.0f/ofGetFrameRate());
 	if ((appearing)&&(animating)){
 		temp_area.width += (area.width - temp_area.width)/eas_k;
 		temp_area.height+= (area.height - temp_area.height)/eas_k;
